@@ -7,14 +7,20 @@ import RankingTable from "./components/rankingTable";
 import Footer from "./components/footer";
 import ScrollToTop from "./components/scrollToTop";
 import { useToast } from "@chakra-ui/react";
-import { HashRouter, Route } from "react-router-dom";
+import { HashRouter, Route, useLocation } from "react-router-dom";
 import ClanDetails from "./components/clanDetails";
 
 export const Config = createContext({});
 
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
+
 export default function App() {
+  const query = useQuery();
+  const queryServer = query.get("server");
   const [config, _setConfig] = useState({
-    ...(JSON.parse(localStorage.getItem("rankingConfig")) || { server: 1 }),
+    ...(JSON.parse(localStorage.getItem("rankingConfig")) || queryServer && { server: queryServer } || { server: 1 }),
     datetime: convertDate(new Date()),
   });
 
@@ -51,7 +57,7 @@ export default function App() {
     axios
       .get(
         `${process.env.REACT_APP_API_HOST}/ranking/${config.server}` +
-          `?ts_start=${config.datetime.getTime() / 1000}&page=${_page}`
+        `?ts_start=${config.datetime.getTime() / 1000}&page=${_page}`
       )
       .then(res => {
         setData(prev => [...prev, ...res.data]);
