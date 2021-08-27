@@ -3,11 +3,14 @@ import ReactDOM from "react-dom";
 import App from "./app.jsx";
 import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
+import { HashRouter } from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider>
-      <App />
+      <HashRouter>
+        <App />
+      </HashRouter>
     </ChakraProvider>
   </React.StrictMode>,
   document.getElementById("root")

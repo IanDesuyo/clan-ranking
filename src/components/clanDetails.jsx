@@ -41,10 +41,11 @@ export default function ClanDetails(props) {
           history.push("/");
         });
     }
+
     return () => {
       setData({});
     };
-  }, [match.params]);
+  }, [match.params.server, match.params.leaderHash]);
 
   return (
     <Modal

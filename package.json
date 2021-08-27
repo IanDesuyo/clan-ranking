@@ -1,6 +1,6 @@
 {
   "name": "clan-ranking",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "private": true,
   "dependencies": {
     "@chakra-ui/icons": "^1.0.14",
