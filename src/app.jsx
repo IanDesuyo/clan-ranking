@@ -19,8 +19,12 @@ const useQuery = () => {
 export default function App() {
   const query = useQuery();
   const queryServer = query.get("server");
+  const pathServer = /^\/clan\/([1-4])\/\S+$/.exec(useLocation().pathname);
+  const rankingConfig = JSON.parse(localStorage.getItem("rankingConfig")) || {};
+
   const [config, _setConfig] = useState({
-    ...(JSON.parse(localStorage.getItem("rankingConfig")) || queryServer && { server: queryServer } || { server: 1 }),
+    ...rankingConfig,
+    server: (pathServer && parseInt(pathServer[1])) || queryServer || 1,
     datetime: convertDate(new Date()),
   });
 
@@ -42,10 +46,7 @@ export default function App() {
     }
 
     _setConfig(prev => {
-      if (key !== "datetime") {
-        localStorage.setItem("rankingConfig", JSON.stringify({ ...prev, [key]: value }));
-      }
-
+      localStorage.setItem("rankingConfig", JSON.stringify({ ...prev, [key]: value }));
       return { ...prev, [key]: value };
     });
   };
@@ -71,15 +72,13 @@ export default function App() {
 
   return (
     <Config.Provider value={{ config: config, setConfig: setConfig }}>
-      <HashRouter>
-        <div style={{ minHeight: "100vh" }}>
-          <Navbar />
-          <RankingTable data={data} isLoading={isLoading} />
-          <Route path="/clan/:server/:leaderHash" component={ClanDetails} />
-          <ScrollToTop />
-          <Footer />
-        </div>
-      </HashRouter>
+      <div style={{ minHeight: "100vh" }}>
+        <Navbar />
+        <RankingTable data={data} isLoading={isLoading} />
+        <Route path="/clan/:server/:leaderHash" component={ClanDetails} />
+        <ScrollToTop />
+        <Footer />
+      </div>
     </Config.Provider>
   );
 }

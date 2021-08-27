@@ -15,12 +15,11 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect } from "react";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { handleError } from "../utils";
 import ClanTimelimeChart from "./charts/clanTimeline";
 import RankingDiff from "./charts/rankingDiff";
-import { Config } from "../app";
 
 export default function ClanDetails(props) {
   const { match } = props;
@@ -28,7 +27,6 @@ export default function ClanDetails(props) {
   const [detailType, setDetailType] = useState(false);
   const toast = useToast();
   const history = useHistory();
-  const { config, setConfig } = useContext(Config);
 
   useEffect(() => {
     const { server, leaderHash } = match.params;
@@ -42,14 +40,12 @@ export default function ClanDetails(props) {
           toast(handleError(error));
           history.push("/");
         });
-
-      // 如果造訪此頁，代表已經確認server，將其寫至localstorage
-      setConfig("server", server);
     }
+
     return () => {
       setData({});
     };
-  }, [match.params]);
+  }, [match.params.server, match.params.leaderHash]);
 
   return (
     <Modal
