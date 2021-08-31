@@ -1,6 +1,6 @@
 {
   "name": "clan-ranking",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "private": true,
   "dependencies": {
     "@chakra-ui/icons": "^1.0.14",
@@ -18,6 +18,7 @@
     "react-chartjs-2": "^3.0.4",
     "react-datepicker": "^4.1.1",
     "react-dom": "^17.0.2",
+    "react-ga4": "^1.0.5",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.1.2"

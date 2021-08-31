@@ -35,6 +35,7 @@ export default function ClanDetails(props) {
         .get(`${process.env.REACT_APP_API_HOST}/ranking/${server}/${leaderHash}`)
         .then(res => {
           setData({ ...res.data });
+          document.title = `${res.data.clanName} - 戰隊排行榜`;
         })
         .catch(error => {
           toast(handleError(error));
@@ -44,6 +45,7 @@ export default function ClanDetails(props) {
 
     return () => {
       setData({});
+      document.title = "戰隊排行榜";
     };
   }, [match.params.server, match.params.leaderHash]);
 

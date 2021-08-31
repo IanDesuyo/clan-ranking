@@ -7,8 +7,9 @@ import RankingTable from "./components/rankingTable";
 import Footer from "./components/footer";
 import ScrollToTop from "./components/scrollToTop";
 import { useToast } from "@chakra-ui/react";
-import { HashRouter, Route, useLocation } from "react-router-dom";
+import { Route, useHistory, useLocation } from "react-router-dom";
 import ClanDetails from "./components/clanDetails";
+import ReactGA from "react-ga4";
 
 export const Config = createContext({});
 
@@ -32,6 +33,7 @@ export default function App() {
   const [page, setPage] = useState(0);
   const [isLoading, setLoading] = useState(true);
   const toast = useToast();
+  const history = useHistory();
 
   const setConfig = (key, value) => {
     console.log(key, value);
@@ -69,6 +71,18 @@ export default function App() {
         setLoading(false);
       });
   }, [config.server, config.datetime, page]);
+
+  useEffect(() => {
+    ReactGA.initialize(process.env.REACT_APP_GA);
+    ReactGA.send("pageview");
+
+    history.listen(location => {
+      // wait for the page to be loaded
+      setTimeout(() => {
+        ReactGA.send({ hitType: "pageview", page: location.pathname });
+      }, 1000);
+    });
+  }, []);
 
   return (
     <Config.Provider value={{ config: config, setConfig: setConfig }}>
