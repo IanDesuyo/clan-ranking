@@ -8,7 +8,7 @@ export function convertDate(date) {
     date.setHours(23);
     date.setMinutes(50);
   } else {
-    if (date.getMinutes() >= 50 && isLastDayOfMonth(date)) {
+    if (date.getMinutes() >= 50 && date.getHours() === 23 && isLastDayOfMonth(date)) {
       date.setMinutes(50);
     } else if (date.getMinutes() >= 40) {
       date.setMinutes(40);
